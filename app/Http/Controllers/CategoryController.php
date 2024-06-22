@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QueryParamsRequest;
 use App\Services\CategoryService;
 
 class CategoryController extends Controller
@@ -13,7 +14,7 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(QueryParamsRequest $request)
     {
         $categories = $this->categoryService->index();
 

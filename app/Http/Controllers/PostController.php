@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QueryParamsRequest;
 use App\Http\Resources\CategoryResource;
 use App\Services\CategoryService;
 use App\Services\PostService;
@@ -20,7 +21,7 @@ class PostController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(QueryParamsRequest $request)
     {
         $posts = $this->postService->index();
         $categories = $this->categoryService->all();

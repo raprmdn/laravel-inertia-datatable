@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QueryParamsRequest;
 use App\Services\RoleService;
 
 class RoleController extends Controller
@@ -13,7 +14,7 @@ class RoleController extends Controller
         $this->roleService = $roleService;
     }
 
-    public function index()
+    public function index(QueryParamsRequest $request)
     {
         $roles = $this->roleService->index();
 

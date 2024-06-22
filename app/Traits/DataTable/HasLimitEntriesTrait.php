@@ -16,10 +16,6 @@ trait HasLimitEntriesTrait
             return $query->paginate($limit);
         }
 
-        if ($this->type === 'cursor') {
-            return $query->cursor();
-        }
-
         return $query->get();
     }
 }

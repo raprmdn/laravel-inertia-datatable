@@ -111,14 +111,14 @@ export default function DataTable() {
                             posts.length > 0 ? (
                                 posts.map((post) => (
                                     <TableRow key={post.id} className="bg-white">
-                                        <TableCell>{post.title}</TableCell>
-                                        <TableCell className="max-w-[300px] truncate">
+                                        <TableCell className="whitespace-nowrap max-w-[350px] truncate">{post.title}</TableCell>
+                                        <TableCell className="max-w-[250px] truncate">
                                             {post.slug}
                                         </TableCell>
                                         <TableCell className="max-w-[250px] truncate">
                                             {post.excerpt}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className="whitespace-nowrap">
                                             <div className="flex items-center gap-1">
                                                 {
                                                     post.categories.map((category) => (
