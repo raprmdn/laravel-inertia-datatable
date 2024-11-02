@@ -10,8 +10,15 @@ class CategoryService
 {
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
+        $sort = str_replace(
+            ['name'],
+            ['name'],
+            request()->query('col')
+        );
+
         $result = DataTable::query(Category::query())
             ->searchable(['name'])
+            ->applySort($sort)
             ->allowedSorts(['name'])
             ->make();
 

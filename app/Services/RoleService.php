@@ -15,11 +15,17 @@ class RoleService
             ['guard_name:web', 'guard_name:api',],
             request()->query('filters') ?? []
         );
+        $sort = str_replace(
+            ['name'],
+            ['name'],
+            request()->query('col')
+        );
 
         $result = DataTable::query(Role::query())
             ->searchable(['name'])
             ->applyFilters($filters)
             ->allowedFilters(['guard_name:web', 'guard_name:api'])
+            ->applySort($sort)
             ->allowedSorts(['name'])
             ->make();
 

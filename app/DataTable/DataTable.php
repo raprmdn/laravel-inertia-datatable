@@ -110,13 +110,13 @@ class DataTable
      *
      * Example: `users.name`, `created_at`.
      *
-     * @param array $sorts
+     * @param string $sort
      *
      * @return $this
      */
-    public function applySorts(array $sorts): self
+    public function applySort(string $sort): self
     {
-        $this->sorts = $sorts;
+        $this->sort = $sort;
 
         return $this;
     }

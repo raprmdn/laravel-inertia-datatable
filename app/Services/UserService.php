@@ -21,6 +21,11 @@ class UserService
             ],
             request()->query('filters') ?? []
         );
+        $sort = str_replace(
+            ['name', 'created_at'],
+            ['name', 'created_at'],
+            request()->query('col')
+        );
 
         $result = DataTable::query(User::query())
             ->with(['roles'])
@@ -33,6 +38,7 @@ class UserService
                 'roles.name:Author',
                 'roles.name:Moderator',
             ])
+            ->applySort($sort)
             ->allowedSorts(['name', 'email', 'created_at'])
             ->make();
 

@@ -24,6 +24,12 @@ class PostService
             request()->query('filters') ?? []
         );
 
+        $sort = str_replace(
+            ['title', 'created_at', 'author'],
+            ['title', 'created_at', 'author'],
+            request()->query('col')
+        );
+
         $query->join('users', 'users.id', '=', 'posts.user_id')
             ->select('posts.*', 'users.name as author');
 
@@ -35,6 +41,7 @@ class PostService
             ['status:published', 'status:draft', 'status:archived'],
                 $pluckReplace
             ))
+            ->applySort($sort)
             ->allowedSorts(['title', 'created_at', 'author'])
             ->make();
 
