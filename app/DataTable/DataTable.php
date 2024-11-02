@@ -106,6 +106,25 @@ class DataTable
      * Set the columns that are sortable.
      *
      * The format should be `column` name.
+     * The format for relationship should be `relationship.column`.
+     *
+     * Example: `users.name`, `created_at`.
+     *
+     * @param array $sorts
+     *
+     * @return $this
+     */
+    public function applySorts(array $sorts): self
+    {
+        $this->sorts = $sorts;
+
+        return $this;
+    }
+
+    /**
+     * Set the columns that are sortable.
+     *
+     * The format should be `column` name.
      *
      * Example: `title`, `created_at`, `author`.
      *
