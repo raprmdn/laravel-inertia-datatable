@@ -1,5 +1,14 @@
 ## Laravel Inertia DataTable
 
+> **Notice**
+>
+> This repository contains the original project-based implementation.
+>
+> A standalone Composer package is also available at:
+> https://github.com/raprmdn/laravel-inertia-datatables
+>
+> This project will be updated to use the package in a future release.
+
 Server-side pagination, filter, live search, sort, and limit data to be displayed on each page.
 
 Source Code : [GitHub](https://github.com/raprmdn/laravel-inertia-datatable)
