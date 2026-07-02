@@ -1,11 +1,27 @@
-import { Head, setLayoutProps } from '@inertiajs/react';
+import { Head, setLayoutProps, useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
 import AppearanceTabs from '@/components/appearance-tabs';
 import Heading from '@/components/heading';
+import { useAppearance } from '@/hooks/use-appearance';
 import { __ } from '@/lib/lang.jsx';
 import DashboardLayout from '@/layouts/dashboard-layout.jsx';
 import SettingsLayout from '@/layouts/settings/layout.jsx';
 
 export default function Appearance() {
+    const { appearance, updateAppearance } = useAppearance();
+    const { data, setData } = useForm({
+        appearance,
+    });
+
+    useEffect(() => {
+        setData('appearance', appearance);
+    }, [appearance, setData]);
+
+    const selectAppearance = (value) => {
+        setData('appearance', value);
+        updateAppearance(value);
+    };
+
     setLayoutProps({
         breadcrumbs: [
             { title: __('Settings') },
@@ -25,7 +41,10 @@ export default function Appearance() {
                     title="Appearance settings"
                     description="Update the appearance settings for your account"
                 />
-                <AppearanceTabs />
+                <AppearanceTabs
+                    value={data.appearance}
+                    onValueChange={selectAppearance}
+                />
             </div>
         </>
     );

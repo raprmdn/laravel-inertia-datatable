@@ -1,4 +1,4 @@
-import { Form } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { ShieldCheck } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Heading from '@/components/heading';
@@ -10,6 +10,7 @@ import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 export default function ManageTwoFactor(props) {
     const requiresConfirmation = props.requiresConfirmation ?? false;
     const twoFactorEnabled = props.twoFactorEnabled ?? false;
+    const { post, delete: destroy, processing } = useForm({});
 
     const {
         qrCodeSvg,
@@ -37,6 +38,23 @@ export default function ManageTwoFactor(props) {
         return null;
     }
 
+    const enableTwoFactorAuthentication = (e) => {
+        e.preventDefault();
+
+        post(route('two-factor.enable'), {
+            preserveScroll: true,
+            onSuccess: () => setShowSetupModal(true),
+        });
+    };
+
+    const disableTwoFactorAuthentication = (e) => {
+        e.preventDefault();
+
+        destroy(route('two-factor.disable'), {
+            preserveScroll: true,
+        });
+    };
+
     return (
         <div className="space-y-6">
             <Heading
@@ -52,19 +70,18 @@ export default function ManageTwoFactor(props) {
                         application on your phone.
                     </p>
 
-                    {/*<div className="relative inline">*/}
-                    {/*    <Form {...disable.form()}>*/}
-                    {/*        {({ processing }) => (*/}
-                    {/*            <Button*/}
-                    {/*                variant="destructive"*/}
-                    {/*                type="submit"*/}
-                    {/*                disabled={processing}*/}
-                    {/*            >*/}
-                    {/*                Disable 2FA*/}
-                    {/*            </Button>*/}
-                    {/*        )}*/}
-                    {/*    </Form>*/}
-                    {/*</div>*/}
+                    <form
+                        onSubmit={disableTwoFactorAuthentication}
+                        className="relative inline"
+                    >
+                        <Button
+                            variant="destructive"
+                            type="submit"
+                            disabled={processing}
+                        >
+                            Disable 2FA
+                        </Button>
+                    </form>
 
                     <TwoFactorRecoveryCodes
                         recoveryCodesList={recoveryCodesList}
@@ -81,25 +98,20 @@ export default function ManageTwoFactor(props) {
                         phone.
                     </p>
 
-                    {/*<div>*/}
-                    {/*    {hasSetupData ? (*/}
-                    {/*        <Button onClick={() => setShowSetupModal(true)}>*/}
-                    {/*            <ShieldCheck />*/}
-                    {/*            Continue setup*/}
-                    {/*        </Button>*/}
-                    {/*    ) : (*/}
-                    {/*        <Form*/}
-                    {/*            {...enable.form()}*/}
-                    {/*            onSuccess={() => setShowSetupModal(true)}*/}
-                    {/*        >*/}
-                    {/*            {({ processing }) => (*/}
-                    {/*                <Button type="submit" disabled={processing}>*/}
-                    {/*                    Enable 2FA*/}
-                    {/*                </Button>*/}
-                    {/*            )}*/}
-                    {/*        </Form>*/}
-                    {/*    )}*/}
-                    {/*</div>*/}
+                    <div>
+                        {hasSetupData ? (
+                            <Button onClick={() => setShowSetupModal(true)}>
+                                <ShieldCheck />
+                                Continue setup
+                            </Button>
+                        ) : (
+                            <form onSubmit={enableTwoFactorAuthentication}>
+                                <Button type="submit" disabled={processing}>
+                                    Enable 2FA
+                                </Button>
+                            </form>
+                        )}
+                    </div>
                 </div>
             )}
 

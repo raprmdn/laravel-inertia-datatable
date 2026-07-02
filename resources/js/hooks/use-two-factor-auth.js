@@ -1,11 +1,10 @@
 import { useHttp } from '@inertiajs/react';
 import { useCallback, useState } from 'react';
-// import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 
 export const OTP_MAX_LENGTH = 6;
 
 export const useTwoFactorAuth = () => {
-    const { submit } = useHttp();
+    const { get } = useHttp();
 
     const [qrCodeSvg, setQrCodeSvg] = useState(null);
     const [manualSetupKey, setManualSetupKey] = useState(null);
@@ -33,36 +32,38 @@ export const useTwoFactorAuth = () => {
 
     const fetchQrCode = useCallback(async () => {
         try {
-            const { svg } = await submit('/qr-url');
+            const { svg } = await get(route('two-factor.qr-code'));
 
             setQrCodeSvg(svg);
         } catch {
             setErrors((prev) => [...prev, 'Failed to fetch QR code']);
             setQrCodeSvg(null);
         }
-    }, [submit]);
+    }, [get]);
 
     const fetchSetupKey = useCallback(async () => {
         try {
-            const { secretKey: key } = await submit('/secret-url');
+            const { secretKey: key } = await get(
+                route('two-factor.secret-key'),
+            );
 
             setManualSetupKey(key);
         } catch {
             setErrors((prev) => [...prev, 'Failed to fetch a setup key']);
             setManualSetupKey(null);
         }
-    }, [submit]);
+    }, [get]);
 
     const fetchRecoveryCodes = useCallback(async () => {
         try {
             setErrors([]);
-            const codes = await submit('/recovery-code');
+            const codes = await get(route('two-factor.recovery-codes'));
             setRecoveryCodesList(codes);
         } catch {
             setErrors((prev) => [...prev, 'Failed to fetch recovery codes']);
             setRecoveryCodesList([]);
         }
-    }, [submit]);
+    }, [get]);
 
     const fetchSetupData = useCallback(async () => {
         try {
