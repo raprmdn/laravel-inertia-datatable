@@ -32,10 +32,6 @@ export function DashboardSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems}/>
             </SidebarContent>
-
-            <SidebarFooter>
-                <NavUser />
-            </SidebarFooter>
         </Sidebar>
     );
 }
