@@ -1,6 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { __ } from '@/lib/lang.jsx';
+import DashboardLayout from '@/layouts/dashboard-layout.jsx';
 
 export default function Dashboard() {
     return (
@@ -27,32 +28,13 @@ export default function Dashboard() {
     );
 }
 
-Dashboard.layout = {
-    breadcrumbs: [
+Dashboard.layout = (props) => {
+    const breadcrumbs = [
         {
-            title: __('Dashboard'),
+            title: __('Dashboard', {}, props),
             href: route('dashboard'),
         },
-        {
-            title: __('Dashboard'),
-            href: route('dashboard'),
-        },
-        {
-            title: __('Dashboard'),
-            href: route('dashboard'),
-        },
-        {
-            title: __('Dashboard'),
-            href: route('dashboard'),
-        },
-        {
-            title: __('Dashboard'),
-            href: route('dashboard'),
-        },
-        {
-            title: __('Dashboard'),
-            href: route('dashboard'),
-        },
-    ],
-};
+    ];
 
+    return [DashboardLayout, { breadcrumbs }];
+};
