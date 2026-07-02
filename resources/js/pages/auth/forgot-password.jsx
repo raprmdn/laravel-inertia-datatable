@@ -31,7 +31,7 @@ export default function ForgotPassword({ status }) {
                         className="h-10 w-auto"
                     />
 
-                    <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">
+                    <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">
                         {__('Forgot Password?')} 🔑
                     </h2>
 

@@ -54,7 +54,7 @@ export default function Login({ status, canResetPassword }) {
                         className="h-10 w-auto"
                     />
 
-                    <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">
+                    <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">
                         {__('Welcome Back!')} 👋
                     </h2>
 
@@ -144,7 +144,7 @@ export default function Login({ status, canResetPassword }) {
                                 />
                                 <Label
                                     htmlFor="remember"
-                                    className="cursor-pointer text-sm font-normal text-gray-900"
+                                    className="cursor-pointer text-sm font-normal text-muted-foreground"
                                 >
                                     {__('Remember me')}
                                 </Label>
@@ -179,7 +179,7 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <div className="relative flex justify-center text-sm/6 font-medium">
-                                <span className="bg-white px-6 text-gray-900">
+                                <span className="bg-background px-6 text-muted-foreground">
                                     {__('Or continue with')}
                                 </span>
                             </div>

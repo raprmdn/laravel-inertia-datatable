@@ -10,9 +10,9 @@ import { Link } from '@inertiajs/react';
 export default function AuthLayout({ children }) {
     return (
         <div vaul-drawer-wrapper="">
-            <div className="bg-slate-100 min-h-screen p-2 sm:p-3 lg:p-4">
+            <div className="bg-background min-h-screen p-2 sm:p-3 lg:p-4">
                 <div className="grid min-h-[calc(100vh-1rem)] grid-cols-1 gap-2 sm:min-h-[calc(100vh-1.5rem)] sm:gap-3 lg:min-h-[calc(100vh-2rem)] lg:gap-4 xl:grid-cols-[3.9fr_2fr]">
-                    <div className="flex flex-col justify-between rounded-2xl bg-white px-4 py-12 shadow-xl sm:px-6 lg:px-16">
+                    <div className="border flex flex-col justify-between rounded-2xl bg-white dark:bg-card px-4 py-12 shadow-xl sm:px-6 lg:px-16">
                         <div className="flex flex-1 flex-col justify-center">
                             {children}
                         </div>
@@ -25,7 +25,7 @@ export default function AuthLayout({ children }) {
                         </div>
                     </div>
 
-                    <div className="bg-white relative hidden overflow-hidden rounded-2xl shadow-xl xl:block">
+                    <div className="bg-background relative hidden overflow-hidden rounded-2xl shadow-xl xl:block border">
                         {/*<Carousel*/}
                         {/*    className="h-full w-full"*/}
                         {/*    opts={{*/}
