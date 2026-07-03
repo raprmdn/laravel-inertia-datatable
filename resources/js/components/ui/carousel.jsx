@@ -192,4 +192,45 @@ function CarouselNext({
     );
 }
 
-export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext };
+function CarouselBullets({ className, ...props }) {
+    const { api } = useCarousel();
+    const [scrollSnaps, setScrollSnaps] = React.useState([]);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+    React.useEffect(() => {
+        if (!api) return;
+
+        setScrollSnaps(api.scrollSnapList());
+        setSelectedIndex(api.selectedScrollSnap());
+
+        api.on("select", () => setSelectedIndex(api.selectedScrollSnap()));
+        api.on("reInit", () => {
+            setScrollSnaps(api.scrollSnapList());
+            setSelectedIndex(api.selectedScrollSnap());
+        });
+    }, [api]);
+
+    return (
+        <div
+            className={cn("flex justify-center gap-2", className)}
+            {...props}
+        >
+            {scrollSnaps.map((_, index) => (
+                <button
+                    key={index}
+                    type="button"
+                    onClick={() => api?.scrollTo(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                    className={cn(
+                        "h-2.5 rounded-full transition-all duration-300",
+                        index === selectedIndex
+                            ? "w-7.5 bg-gray-700/50 dark:bg-white opacity-100"
+                            : "w-2.5 bg-gray-700/50 dark:bg-white opacity-40 hover:opacity-60"
+                    )}
+                />
+            ))}
+        </div>
+    );
+}
+
+export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselBullets };
