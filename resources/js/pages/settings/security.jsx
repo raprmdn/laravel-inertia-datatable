@@ -1,11 +1,11 @@
 import { Head, setLayoutProps, useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import ButtonWithLoading from '@/components/button-with-loading';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import ManagePasskeys from '@/components/manage-passkeys';
 import ManageTwoFactor from '@/components/manage-two-factor';
 import PasswordInput from '@/components/password-input';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import DashboardLayout from '@/layouts/dashboard-layout.jsx';
 import SettingsLayout from '@/layouts/settings/layout.jsx';
@@ -127,13 +127,12 @@ export default function Security(props) {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <Button
+                        <ButtonWithLoading
                             type="submit"
-                            disabled={processing}
+                            processing={processing}
+                            label="Save"
                             data-test="update-password-button"
-                        >
-                            Save
-                        </Button>
+                        />
                     </div>
                 </form>
             </div>
