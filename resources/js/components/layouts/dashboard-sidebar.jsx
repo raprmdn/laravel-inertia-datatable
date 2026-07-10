@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Settings } from 'lucide-react';
+import { LayoutGrid, Settings, UserIcon } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import {
@@ -27,6 +27,20 @@ export function DashboardSidebar() {
                     permission: null,
                     badge: null,
                     routeName: 'dashboard',
+                },
+            ],
+        },
+        {
+            title: 'Example Usage',
+            permission: null,
+            items: [
+                {
+                    title: __('Users', {}, page),
+                    href: route('users.index'),
+                    icon: UserIcon,
+                    permission: null,
+                    badge: null,
+                    routeName: 'users.*',
                 },
             ],
         },
@@ -70,8 +84,8 @@ export function DashboardSidebar() {
                         },
                     ],
                 },
-            ]
-        }
+            ],
+        },
     ].map((group) => ({
         ...group,
         items: group.items.map((item) => {
