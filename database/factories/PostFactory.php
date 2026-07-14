@@ -21,26 +21,35 @@ class PostFactory extends Factory
             'slug' => Str::slug($title).'-'.fake()->unique()->numberBetween(100000, 999999),
             'excerpt' => fake()->paragraph(),
             'content' => fake()->paragraphs(8, true),
-            'status' => PostStatus::DRAFT->value,
+            'status' => fake()->randomElement(
+                array_column(PostStatus::cases(), 'value'),
+            ),
         ];
     }
 
     public function configure(): static
     {
         return $this->afterCreating(function (Post $post): void {
-            $categories = Category::query()
-                ->inRandomOrder()
-                ->limit(fake()->numberBetween(1, 3))
-                ->pluck('id');
+            static $categoryIds;
 
-            if ($categories->isEmpty()) {
-                $categories = Category::factory()
+            $categoryIds ??= Category::query()
+                ->pluck('id')
+                ->all();
+
+            if ($categoryIds === []) {
+                $categoryIds = Category::factory()
                     ->count(3)
                     ->create()
-                    ->pluck('id');
+                    ->pluck('id')
+                    ->all();
             }
 
-            $post->categories()->sync($categories->all());
+            $maximum = min(3, count($categoryIds));
+            $count = fake()->numberBetween(1, $maximum);
+
+            $post->categories()->sync(
+                fake()->randomElements($categoryIds, $count),
+            );
         });
     }
 }
