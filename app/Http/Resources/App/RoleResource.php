@@ -17,6 +17,8 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'guard_name' => $this->guard_name,
+            'users_count' => $this->users_count,
             'created_at' => $this->created_at ? new CarbonResource($this->created_at) : null,
             'updated_at' => $this->updated_at ? new CarbonResource($this->updated_at) : null,
         ];

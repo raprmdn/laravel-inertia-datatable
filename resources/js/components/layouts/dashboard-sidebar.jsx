@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Settings, UserIcon } from 'lucide-react';
+import { LayoutGrid, Settings, ShieldCheck, UserIcon } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import {
@@ -41,6 +41,14 @@ export function DashboardSidebar() {
                     permission: null,
                     badge: null,
                     routeName: 'users.*',
+                },
+                {
+                    title: __('Roles', {}, page),
+                    href: route('roles.index'),
+                    icon: ShieldCheck,
+                    permission: null,
+                    badge: null,
+                    routeName: 'roles.*',
                 },
             ],
         },
