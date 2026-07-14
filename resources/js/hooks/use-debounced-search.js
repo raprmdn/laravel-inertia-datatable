@@ -32,13 +32,9 @@
 //
 // export default useDebouncedSearch;
 
-import { useEffect, useMemo, useState } from 'react';
-
-import debounce from 'lodash/debounce';
-import pickBy from 'lodash/pickBy';
-
+import { useCallback, useEffect, useState } from 'react';
+import { debounce, pickBy } from 'lodash';
 import { router } from '@inertiajs/react';
-
 import usePrevious from '@/hooks/use-previous.js';
 
 const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
@@ -47,16 +43,16 @@ const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
 
     const prevParams = usePrevious(params);
 
-    const search = useMemo(
-        () =>
-            debounce((nextParams) => {
-                router.get(url, pickBy(nextParams), {
-                    replace: true,
-                    preserveScroll: true,
-                    preserveState: true,
-                    queryStringArrayFormat: 'indices',
-                });
-            }, timeDebounce),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const search = useCallback(
+        debounce((nextParams) => {
+            router.get(url, pickBy(nextParams), {
+                replace: true,
+                preserveScroll: true,
+                preserveState: true,
+                queryStringArrayFormat: 'indices',
+            });
+        }, timeDebounce),
         [url, timeDebounce],
     );
 
@@ -65,10 +61,15 @@ const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
             search(params);
         }
 
+        // Intentionally only trigger searches when params change.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params]);
+
+    useEffect(() => {
         return () => {
             search.cancel();
         };
-    }, [params, prevParams, search]);
+    }, [search]);
 
     return {
         params,
@@ -78,3 +79,4 @@ const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
 };
 
 export default useDebouncedSearch;
+
