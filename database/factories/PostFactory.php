@@ -21,7 +21,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($title).'-'.fake()->unique()->numberBetween(100000, 999999),
             'excerpt' => fake()->paragraph(),
             'content' => fake()->paragraphs(8, true),
-            'status' => PostStatus::Draft,
+            'status' => PostStatus::DRAFT->value,
         ];
     }
 

@@ -43,9 +43,9 @@ class RolePermissionSeeder extends Seeder
 
     private function syncPermissionsByRole(): void
     {
-        Role::findByName(RoleEnum::Administrator->value)->syncPermissions($this->administratorPermissions());
-        Role::findByName(RoleEnum::Author->value)->syncPermissions($this->authorPermissions());
-        Role::findByName(RoleEnum::Moderator->value)->syncPermissions($this->moderatorPermissions());
+        Role::findByName(RoleEnum::ADMINISTRATOR->value)->syncPermissions($this->administratorPermissions());
+        Role::findByName(RoleEnum::AUTHOR->value)->syncPermissions($this->authorPermissions());
+        Role::findByName(RoleEnum::MODERATOR->value)->syncPermissions($this->moderatorPermissions());
     }
 
     private function allPermissions(): array

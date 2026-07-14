@@ -1,5 +1,11 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Settings, ShieldCheck, UserIcon } from 'lucide-react';
+import {
+    LayoutGrid,
+    Settings,
+    ShieldCheck,
+    Tags,
+    UserIcon,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import {
@@ -34,6 +40,14 @@ export function DashboardSidebar() {
             title: 'Example Usage',
             permission: null,
             items: [
+                {
+                    title: __('Categories', {}, page),
+                    href: route('categories.index'),
+                    icon: Tags,
+                    permission: null,
+                    badge: null,
+                    routeName: 'categories.*',
+                },
                 {
                     title: __('Users', {}, page),
                     href: route('users.index'),
