@@ -9,22 +9,29 @@ export default function TablePagination({ meta }) {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:justify-between">
+        <div className="flex flex-col items-center justify-center gap-3 lg:flex-row lg:justify-between">
             <div className="text-center lg:text-left">
-                <p className="text-sm text-foreground">
+                <p className="text-sm text-muted-foreground dark:text-zinc-400">
                     {__('Showing')}{' '}
-                    <span className="font-medium">{meta.from || 0}</span>{' '}
+                    <span className="font-medium text-foreground dark:text-zinc-100">
+                        {meta.from || 0}
+                    </span>{' '}
                     {__('to')}{' '}
-                    <span className="font-medium">{meta.to || 0}</span>{' '}
-                    {__('of')} <span className="font-medium">{meta.total}</span>{' '}
+                    <span className="font-medium text-foreground dark:text-zinc-100">
+                        {meta.to || 0}
+                    </span>{' '}
+                    {__('of')}{' '}
+                    <span className="font-medium text-foreground dark:text-zinc-100">
+                        {meta.total}
+                    </span>{' '}
                     {__('entries')}
                 </p>
             </div>
 
-            <div className="w-full lg:w-auto">
+            <div className="w-full min-w-0 lg:w-auto">
                 <nav
                     aria-label="Pagination"
-                    className="isolate flex w-full justify-center -space-x-px rounded-md lg:inline-flex lg:w-auto lg:shadow-xs"
+                    className="isolate flex w-full flex-wrap items-center justify-center gap-1 lg:w-auto"
                 >
                     {(meta.links || []).map((link, index) => {
                         const currentPage = meta.current_page;
@@ -37,14 +44,15 @@ export default function TablePagination({ meta }) {
                                     href={link.url || '#'}
                                     preserveScroll
                                     className={cn(
-                                        'relative inline-flex items-center rounded-l-md px-2 py-2 text-foreground inset-ring inset-ring-border hover:bg-primary hover:text-primary-foreground focus:z-20 focus:outline-offset-0',
+                                        'relative inline-flex size-9 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-xs transition-colors hover:bg-muted hover:text-foreground focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900',
                                         !link.url &&
-                                            'pointer-events-none opacity-50',
+                                            'pointer-events-none bg-muted/40 text-muted-foreground opacity-40 dark:bg-zinc-900 dark:text-zinc-500',
                                     )}
                                 >
+                                    <span className="sr-only">Previous</span>
                                     <ChevronLeftIcon
                                         aria-hidden="true"
-                                        className="size-5"
+                                        className="size-4"
                                     />
                                 </Link>
                             );
@@ -57,15 +65,15 @@ export default function TablePagination({ meta }) {
                                     href={link.url || '#'}
                                     preserveScroll
                                     className={cn(
-                                        'relative inline-flex items-center rounded-r-md px-2 py-2 text-foreground inset-ring inset-ring-border hover:bg-primary hover:text-primary-foreground focus:z-20 focus:outline-offset-0',
+                                        'relative inline-flex size-9 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-xs transition-colors hover:bg-muted hover:text-foreground focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900',
                                         !link.url &&
-                                            'pointer-events-none opacity-50',
+                                            'pointer-events-none bg-muted/40 text-muted-foreground opacity-40 dark:bg-zinc-900 dark:text-zinc-500',
                                     )}
                                 >
                                     <span className="sr-only">Next</span>
                                     <ChevronRightIcon
                                         aria-hidden="true"
-                                        className="size-5"
+                                        className="size-4"
                                     />
                                 </Link>
                             );
@@ -75,7 +83,7 @@ export default function TablePagination({ meta }) {
                             return (
                                 <span
                                     key={index}
-                                    className="relative hidden items-center px-4 py-2 text-sm font-semibold text-foreground inset-ring inset-ring-border focus:outline-offset-0 lg:inline-flex"
+                                    className="relative hidden size-9 items-center justify-center rounded-md border border-border bg-background text-sm font-medium text-muted-foreground shadow-xs lg:inline-flex dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500"
                                 >
                                     ...
                                 </span>
@@ -94,10 +102,10 @@ export default function TablePagination({ meta }) {
                                 href={link.url || '#'}
                                 preserveScroll
                                 className={cn(
-                                    'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
+                                    'relative inline-flex size-9 items-center justify-center rounded-md border text-sm font-medium shadow-xs transition-colors focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
                                     link.active
-                                        ? 'z-10 bg-primary text-primary-foreground inset-ring inset-ring-border focus:outline-offset-0'
-                                        : 'text-foreground inset-ring inset-ring-border hover:bg-primary hover:text-primary-foreground focus:outline-offset-0',
+                                        ? 'z-10 border-primary bg-primary text-primary-foreground shadow-sm dark:border-primary'
+                                        : 'border-border bg-background text-foreground hover:bg-muted hover:text-foreground dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900',
                                     !showOnMobile && 'hidden lg:inline-flex',
                                 )}
                                 dangerouslySetInnerHTML={{ __html: link.label }}

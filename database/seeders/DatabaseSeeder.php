@@ -20,7 +20,15 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
         ]);
 
-        User::factory(500)->withPosts()->create();
-        User::factory(500)->unverified()->withPosts()->create();
+        User::factory(500)
+            ->withPosts()
+            ->create();
+
+        User::factory(500)
+            ->unverified()
+            ->withPosts()
+            ->create();
+
+        $this->call(UserRoleSeeder::class);
     }
 }

@@ -11,16 +11,23 @@ const SortIcon = ({ sort }) => {
         return <ArrowUpIcon className="ml-1 size-3.5 text-primary" />;
     }
 
-    return <ArrowUpDownIcon className="ml-1 size-4 text-primary" />;
+    return <ArrowUpDownIcon className="ml-1 size-4 text-muted-foreground/60" />;
 };
 
 export default function TableSortHeader({ className, title, sort, ...props }) {
+    const isSorted = sort === 'asc' || sort === 'desc';
+
     return (
-        <div className={cn('flex items-center space-x-2', className)}>
+        <div className={cn('flex items-center', className)}>
             <Button
                 variant="ghost"
                 size="sm"
-                className="-ml-2 flex h-8 cursor-pointer items-center rounded-sm border-none text-sm transition duration-150 hover:bg-muted hover:text-foreground"
+                className={cn(
+                    '-ml-2 flex h-8 cursor-pointer items-center rounded-lg border-none px-2 text-sm transition-colors hover:bg-muted hover:text-foreground dark:hover:bg-zinc-800',
+                    isSorted
+                        ? 'bg-muted/70 text-foreground dark:bg-zinc-900 dark:text-zinc-100'
+                        : 'text-muted-foreground dark:text-zinc-400',
+                )}
                 {...props}
             >
                 <span>{title}</span>

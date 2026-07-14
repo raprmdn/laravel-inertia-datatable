@@ -50,6 +50,7 @@ export const MultiSelect = React.forwardRef(
             value,
             defaultValue = [],
             placeholder = '',
+            placeholderSearch = 'Search',
             animation = 0,
             maxCount = 3,
             modalPopover = false,
@@ -241,7 +242,7 @@ export const MultiSelect = React.forwardRef(
                 >
                     <Command>
                         <CommandInput
-                            placeholder="Search..."
+                            placeholder={placeholderSearch}
                             onKeyDown={handleInputKeyDown}
                             className="text-sm text-foreground placeholder:text-muted-foreground"
                         />

@@ -37,15 +37,18 @@ const RowsPerPageSelect = ({
             setParams({ ...params, limit: value });
         }}
     >
-        <SelectTrigger className="w-[75px] cursor-pointer rounded-xl focus:ring-0 focus:ring-offset-0 focus:outline-none data-[size=default]:h-10">
+        <SelectTrigger className="w-18.75 shrink-0 cursor-pointer rounded-lg border-border bg-background focus:ring-0 focus:ring-offset-0 focus:outline-none data-[size=default]:h-10 dark:border-zinc-800 dark:bg-zinc-950">
             <SelectValue placeholder="10" />
         </SelectTrigger>
-        <SelectContent position="popper" className="mt-1 rounded-xl">
+        <SelectContent
+            position="popper"
+            className="mt-1 rounded-lg border-border bg-popover dark:border-zinc-800"
+        >
             {[10, 25, 50, 100].map((limit) => (
                 <SelectItem
                     key={limit}
                     value={`${limit}`}
-                    className="cursor-pointer text-foreground focus:bg-muted"
+                    className="cursor-pointer text-foreground focus:bg-muted dark:focus:bg-zinc-800"
                 >
                     {limit}
                 </SelectItem>
@@ -61,11 +64,11 @@ const SearchInput = ({
     params,
     setTimeDebounce,
 }) => (
-    <div className="relative w-full min-w-0 sm:w-[250px]">
+    <div className="relative w-full min-w-0">
         <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
             placeholder={placeholder || 'Search'}
-            className="h-10 w-full rounded-xl pl-9"
+            className="h-10 w-full rounded-lg border-border bg-background pl-9 dark:border-zinc-800 dark:bg-zinc-950"
             value={search || ''}
             onChange={(event) => {
                 setParams({ ...params, search: event.target.value });
@@ -132,32 +135,35 @@ const FilterBadges = ({
     };
 
     return (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
             {Object.entries(groups).map(([key, group]) => (
                 <div
                     key={key}
-                    className="flex h-8 items-center gap-1 rounded-md border border-border bg-white px-2.5 shadow-xs dark:bg-background"
+                    className="flex h-8 max-w-full items-center gap-1 rounded-md border border-border bg-background px-2.5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900"
                 >
-                    <span className="text-xs font-medium text-foreground capitalize">
+                    <span className="shrink-0 text-xs font-medium text-foreground capitalize dark:text-zinc-100">
                         {humanizeKey(key)}
                     </span>
 
-                    <Separator orientation="vertical" className="mx-1 h-4" />
+                    <Separator
+                        orientation="vertical"
+                        className="mx-1 h-4 bg-border dark:bg-zinc-800"
+                    />
 
-                    <div className="flex items-center gap-1">
+                    <div className="flex min-w-0 flex-wrap items-center gap-1">
                         {group.type === 'date' ? (
-                            <Badge className="rounded-sm bg-muted text-primary">
-                                {`${group.values.from || ''} - ${group.values.to || ''}`}
+                            <Badge className="rounded-sm bg-muted px-2 py-0.5 text-xs font-medium text-primary dark:bg-zinc-800 dark:text-zinc-200">
+                                {`${group.values.from || ''} → ${group.values.to || ''}`}
                             </Badge>
                         ) : group.items.length > 3 ? (
-                            <Badge className="rounded-sm bg-muted text-primary">
+                            <Badge className="rounded-sm bg-muted px-2 py-0.5 text-xs font-medium text-primary dark:bg-zinc-800 dark:text-zinc-200">
                                 {group.items.length} {__('selected')}
                             </Badge>
                         ) : (
                             group.items.map((value) => (
                                 <Badge
                                     key={value}
-                                    className="rounded-sm bg-muted text-primary"
+                                    className="rounded-sm bg-muted px-2 py-0.5 text-xs font-medium text-primary dark:bg-zinc-800 dark:text-zinc-200"
                                 >
                                     {formatSnakeCase(value)}
                                 </Badge>
@@ -165,11 +171,14 @@ const FilterBadges = ({
                         )}
                     </div>
 
-                    <Separator orientation="vertical" className="mx-1 h-4" />
+                    <Separator
+                        orientation="vertical"
+                        className="mx-1 h-4 bg-border dark:bg-zinc-800"
+                    />
                     <button
                         type="button"
                         onClick={() => removeFilters(key, group.type)}
-                        className="cursor-pointer text-muted-foreground hover:text-foreground"
+                        className="shrink-0 cursor-pointer text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     >
                         <XIcon className="size-3" />
                     </button>
@@ -263,15 +272,18 @@ export default function TableToolbar({
 
     return (
         <>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2 md:flex-none">
-                    <SearchInput
-                        placeholder={placeholder}
-                        search={search}
-                        setParams={setParams}
-                        params={params}
-                        setTimeDebounce={setTimeDebounce}
-                    />
+            <div className="flex w-full flex-col gap-3">
+                <div className="flex w-full min-w-0 items-center gap-2">
+                    <div className="min-w-0 flex-1 md:max-w-sm">
+                        <SearchInput
+                            placeholder={placeholder}
+                            search={search}
+                            setParams={setParams}
+                            params={params}
+                            setTimeDebounce={setTimeDebounce}
+                        />
+                    </div>
+
                     {filters && (
                         <Popover open={openFilter} onOpenChange={setOpenFilter}>
                             <PopoverTrigger asChild>
@@ -281,16 +293,10 @@ export default function TableToolbar({
                                             ? 'filter-active'
                                             : 'filter-outline'
                                     }
-                                    className="h-10 rounded-xl shadow-xs"
+                                    className="h-10 shrink-0 rounded-lg px-3 shadow-xs md:px-4"
                                 >
-                                    {hasAnyFilterApplied() ? (
-                                        <IconPack.FilterApplied className="size-5" />
-                                    ) : openFilter ? (
-                                        <IconPack.FilterFilled className="size-4" />
-                                    ) : (
-                                        <IconPack.Filter className="size-4" />
-                                    )}
-                                    <span className="hidden md:block">
+                                    <IconPack.Filter className="size-4" />
+                                    <span className="hidden md:inline">
                                         {__('Filter')}
                                     </span>
                                 </Button>
@@ -298,33 +304,36 @@ export default function TableToolbar({
                             <PopoverContent
                                 align="start"
                                 sideOffset={8}
-                                className="w-[calc(100vw-2rem)] rounded-xl p-0 sm:w-[380px] md:w-[420px]"
+                                className="w-[calc(100vw-1rem)] rounded-lg border-border bg-popover p-0 text-popover-foreground shadow-xl shadow-black/5 sm:w-[380px] md:w-[420px] dark:border-zinc-800 dark:shadow-black/30"
                                 onInteractOutside={keepOpenForNestedPopover}
                             >
-                                <div className="space-y-4 p-5">
-                                    <div className="space-y-1.5">
-                                        <h2 className="text-lg font-bold text-foreground">
+                                <div className="border-b border-border px-4 py-3 dark:border-zinc-800">
+                                    <div className="flex flex-col gap-1">
+                                        <h2 className="text-base font-semibold text-popover-foreground">
                                             {__('Filters')}
                                         </h2>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-xs leading-relaxed text-muted-foreground dark:text-zinc-400">
                                             {__(
                                                 'Filter data to display by applying one or more filters.',
                                             )}
                                         </p>
                                     </div>
+                                </div>
 
-                                    <div>
+                                <div className="px-4 py-4">
+                                    <div className="flex flex-col gap-4">
                                         {typeof filters === 'function'
                                             ? filters({ data, setData })
                                             : filters}
                                     </div>
                                 </div>
 
-                                <div className="border-t border-dashed p-4">
-                                    <div className="grid gap-2 sm:grid-cols-3">
+                                <div className="border-t border-border bg-muted/30 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
+                                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                                         <Button
                                             type="button"
                                             variant="filter-outline"
+                                            className="h-8 rounded-lg px-3 text-xs"
                                             onClick={() => setOpenFilter(false)}
                                         >
                                             {__('Close')}
@@ -332,6 +341,7 @@ export default function TableToolbar({
                                         <Button
                                             type="button"
                                             variant="filter-outline"
+                                            className="h-8 rounded-lg px-3 text-xs"
                                             onClick={resetFilter}
                                             disabled={!hasAnyFilterApplied()}
                                         >
@@ -340,6 +350,7 @@ export default function TableToolbar({
                                         <ButtonWithLoading
                                             type="button"
                                             variant="primary"
+                                            className="h-8 rounded-lg px-3 text-xs"
                                             processing={false}
                                             label={__('Apply Filter')}
                                             onClick={applyFilter}
@@ -349,32 +360,31 @@ export default function TableToolbar({
                             </PopoverContent>
                         </Popover>
                     )}
+                    <div className="flex shrink-0 items-center gap-1.5 md:ml-auto">
+                        <p className="hidden text-sm text-muted-foreground md:block">
+                            {__('Show')}
+                        </p>
+                        <RowsPerPageSelect
+                            limit={limit}
+                            setLimit={setLimit}
+                            setParams={setParams}
+                            params={params}
+                            setTimeDebounce={setTimeDebounce}
+                        />
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-1.5">
-                    <p className="hidden text-sm text-foreground md:block">
-                        {__('Show')}
-                    </p>
-                    <RowsPerPageSelect
-                        limit={limit}
-                        setLimit={setLimit}
-                        setParams={setParams}
+                {filters && (
+                    <FilterBadges
+                        appliedFilters={params?.filters}
                         params={params}
+                        setParams={setParams}
                         setTimeDebounce={setTimeDebounce}
+                        setData={setData}
+                        emptyDefaults={emptyDefaults}
                     />
-                </div>
+                )}
             </div>
-
-            {filters && (
-                <FilterBadges
-                    appliedFilters={params?.filters}
-                    params={params}
-                    setParams={setParams}
-                    setTimeDebounce={setTimeDebounce}
-                    setData={setData}
-                    emptyDefaults={emptyDefaults}
-                />
-            )}
         </>
     );
 }

@@ -17,6 +17,7 @@ import {
 import useDebouncedSearch from '@/hooks/use-debounced-search.js';
 import useSorting from '@/hooks/use-sorting.js';
 import { __ } from '@/lib/lang.jsx';
+import { formatSnakeCase } from '@/lib/utils.js';
 import {
     userFilterDefaults,
     UserFilters,
@@ -82,6 +83,7 @@ export default function DataTable() {
                                 }
                             />
                         </TableHead>
+                        <TableHead>{__('Role')}</TableHead>
                         <TableHead>
                             <TableSortHeader
                                 title={__('Email Verified')}
@@ -116,17 +118,33 @@ export default function DataTable() {
                     {users.length > 0 ? (
                         users.map((user) => (
                             <TableRow key={user.id}>
-                                <TableCell>
-                                    {user.name}
-                                </TableCell>
+                                <TableCellSticky index={0} isLast={true}>{user.name}</TableCellSticky>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>
+                                    <div className="flex flex-wrap gap-1">
+                                        {user.roles?.length ? (
+                                            user.roles.map((role) => (
+                                                <Badge
+                                                    key={role.id}
+                                                    className="rounded-md bg-muted text-foreground dark:bg-zinc-800 dark:text-zinc-200"
+                                                >
+                                                    {formatSnakeCase(role.name)}
+                                                </Badge>
+                                            ))
+                                        ) : (
+                                            <span className="text-muted-foreground">
+                                                -
+                                            </span>
+                                        )}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
                                     {user.email_verified_at ? (
-                                        <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                                        <Badge className="rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
                                             {__('Verified')}
                                         </Badge>
                                     ) : (
-                                        <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">
+                                        <Badge className="rounded-md bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">
                                             {__('Unverified')}
                                         </Badge>
                                     )}
@@ -137,7 +155,7 @@ export default function DataTable() {
                             </TableRow>
                         ))
                     ) : (
-                        <TableRowEmptyState colSpan={4} label="User" />
+                        <TableRowEmptyState colSpan={5} label="User" />
                     )}
                 </TableBody>
             </Table>

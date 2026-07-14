@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c210a100c5e61ff6713221efeed7b39",
+    "content-hash": "6bf7dfb150d1560d4357115940d2c698",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4060,16 +4060,16 @@
         },
         {
             "name": "raprmdn/laravel-inertia-datatables",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/raprmdn/laravel-inertia-datatables.git",
-                "reference": "bc13e42807932b05416ea42c702798c6d436d0ba"
+                "reference": "898ed983230d033b2f86ffe7bef5486d818ca69e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raprmdn/laravel-inertia-datatables/zipball/bc13e42807932b05416ea42c702798c6d436d0ba",
-                "reference": "bc13e42807932b05416ea42c702798c6d436d0ba",
+                "url": "https://api.github.com/repos/raprmdn/laravel-inertia-datatables/zipball/898ed983230d033b2f86ffe7bef5486d818ca69e",
+                "reference": "898ed983230d033b2f86ffe7bef5486d818ca69e",
                 "shasum": ""
             },
             "require": {
@@ -4110,9 +4110,9 @@
             "description": "Laravel server-side data table query builder with optional Inertia React components.",
             "support": {
                 "issues": "https://github.com/raprmdn/laravel-inertia-datatables/issues",
-                "source": "https://github.com/raprmdn/laravel-inertia-datatables/tree/v0.2.0"
+                "source": "https://github.com/raprmdn/laravel-inertia-datatables/tree/v0.3.0"
             },
-            "time": "2026-07-07T07:19:21+00:00"
+            "time": "2026-07-14T04:25:00+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
