@@ -17,7 +17,7 @@ class PostController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        [$columnFilters, $dateRanges] = DataTable::parseFilters([
+        [$columnFilters, $allowedFilters, $dateRanges] = DataTable::parseFilters([
             'status' => 'status',
             'user_id' => 'user_id',
             'category' => 'categories.name',
@@ -36,7 +36,7 @@ class PostController extends Controller
             ->with(['user', 'categories'])
             ->searchable(['title', 'slug', 'excerpt', 'user.name', 'categories.name'])
             ->applyFilters($columnFilters)
-            ->allowedFilters(['status', 'user_id', 'categories.name', 'created_at'])
+            ->allowedFilters($allowedFilters)
             ->applyDateRanges($dateRanges)
             ->applySort($sort)
             ->allowedSorts($allowedSorts)

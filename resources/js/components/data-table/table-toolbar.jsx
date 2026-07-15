@@ -80,6 +80,7 @@ const SearchInput = ({
 
 const FilterBadges = ({
     appliedFilters,
+    filterValueLabels,
     params,
     setParams,
     setTimeDebounce,
@@ -165,7 +166,8 @@ const FilterBadges = ({
                                     key={value}
                                     className="rounded-sm bg-muted px-2 py-0.5 text-xs font-medium text-primary dark:bg-zinc-800 dark:text-zinc-200"
                                 >
-                                    {formatSnakeCase(value)}
+                                    {filterValueLabels[key]?.[value] ??
+                                        formatSnakeCase(value)}
                                 </Badge>
                             ))
                         )}
@@ -196,6 +198,7 @@ export default function TableToolbar({
     search,
     filters,
     defaultFilterValues = {},
+    filterValueLabels = {},
 }) {
     const [limit, setLimit] = useState((params.limit || 10).toString());
     const [openFilter, setOpenFilter] = useState(false);
@@ -377,6 +380,7 @@ export default function TableToolbar({
                 {filters && (
                     <FilterBadges
                         appliedFilters={params?.filters}
+                        filterValueLabels={filterValueLabels}
                         params={params}
                         setParams={setParams}
                         setTimeDebounce={setTimeDebounce}

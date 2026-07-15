@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutGrid,
+    FileText,
     Settings,
     ShieldCheck,
     Tags,
@@ -40,6 +41,14 @@ export function DashboardSidebar() {
             title: 'Example Usage',
             permission: null,
             items: [
+                {
+                    title: __('Posts', {}, page),
+                    href: route('posts.index'),
+                    icon: FileText,
+                    permission: null,
+                    badge: null,
+                    routeName: 'posts.*',
+                },
                 {
                     title: __('Categories', {}, page),
                     href: route('categories.index'),

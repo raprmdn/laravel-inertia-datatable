@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        [$columnFilters, $dateRanges] = DataTable::parseFilters([
+        [$columnFilters, $allowedFilters, $dateRanges] = DataTable::parseFilters([
             'role' => 'roles.name',
             'created_at' => 'created_at',
         ]);
@@ -32,7 +32,7 @@ class UserController extends Controller
             ->with(['roles'])
             ->searchable(['name', 'email', 'roles.name'])
             ->applyFilters($columnFilters)
-            ->allowedFilters(['roles.name', 'created_at'])
+            ->allowedFilters($allowedFilters)
             ->applyDateRanges($dateRanges)
             ->applySort($sort)
             ->allowedSorts($allowedSorts)

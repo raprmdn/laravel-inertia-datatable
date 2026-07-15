@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        [$columnFilters, $dateRanges] = DataTable::parseFilters([
+        [$columnFilters, $allowedFilters, $dateRanges] = DataTable::parseFilters([
             'created_at' => 'created_at',
         ]);
         [$sort, $allowedSorts] = DataTable::parseSort($request->string('col')->toString(), [
@@ -27,7 +27,7 @@ class CategoryController extends Controller
         $categories = DataTable::query(Category::query()->withCount('posts'))
             ->searchable(['name', 'slug'])
             ->applyFilters($columnFilters)
-            ->allowedFilters(['created_at'])
+            ->allowedFilters($allowedFilters)
             ->applyDateRanges($dateRanges)
             ->applySort($sort)
             ->allowedSorts($allowedSorts)
