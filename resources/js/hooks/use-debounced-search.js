@@ -33,9 +33,11 @@
 // export default useDebouncedSearch;
 
 import { useCallback, useEffect, useState } from 'react';
-import { debounce, pickBy } from 'lodash';
+import lodash from 'lodash';
 import { router } from '@inertiajs/react';
 import usePrevious from '@/hooks/use-previous.js';
+
+const { debounce, pickBy } = lodash;
 
 const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
     const [params, setParams] = useState(initialParams);
@@ -79,4 +81,3 @@ const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
 };
 
 export default useDebouncedSearch;
-
