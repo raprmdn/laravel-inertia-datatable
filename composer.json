@@ -1,11 +1,14 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "raprmdn/laravel-inertia-datatable",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Laravel and Inertia React example application for raprmdn/laravel-inertia-datatables.",
     "keywords": [
         "laravel",
-        "framework"
+        "inertia",
+        "react",
+        "datatable",
+        "server-side"
     ],
     "license": "MIT",
     "require": {
