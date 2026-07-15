@@ -7,6 +7,7 @@ use App\Http\Resources\Api\RoleApiResource;
 use App\Http\Resources\Api\UserApiResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Raprmdn\DataTables\Facades\DataTable;
@@ -14,6 +15,43 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function options(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'limit' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $search = trim($validated['search'] ?? '');
+        $limit = min((int) ($validated['limit'] ?? 20), 20);
+
+        if (mb_strlen($search) < 2) {
+            return response()->json([
+                'data' => [],
+                'meta' => ['has_more' => false],
+            ]);
+        }
+
+        $users = User::query()
+            ->select('name')
+            ->where('name', 'like', "%{$search}%")
+            ->distinct()
+            ->orderBy('name')
+            ->limit($limit + 1)
+            ->get();
+
+        return response()->json([
+            'data' => $users
+                ->take($limit)
+                ->map(fn (User $user): array => [
+                    'value' => $user->name,
+                    'label' => $user->name,
+                ])
+                ->values(),
+            'meta' => ['has_more' => $users->count() > $limit],
+        ]);
+    }
+
     public function index(Request $request): AnonymousResourceCollection
     {
         [$columnFilters, $allowedFilters, $dateRanges] = DataTable::parseFilters([

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\PostStatus;
 use App\Http\Resources\App\PostResource;
 use App\Models\Post;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,7 +17,7 @@ class PostController extends Controller
         [$columnFilters, $allowedFilters, $dateRanges] = DataTable::parseFilters(
             $request->query('filters', []),
             [
-                'author' => 'user_id',
+                'author' => 'user.name',
                 'status' => 'status',
                 'created_at' => 'created_at',
             ],
@@ -47,26 +45,23 @@ class PostController extends Controller
 
         return Inertia::render('posts/index', [
             'posts' => PostResource::collection($posts),
-            'authors' => $this->authorOptions(),
-            'statuses' => $this->statusOptions(),
+            'selected_authors' => $this->selectedAuthorOptions($columnFilters),
+            'statuses' => PostStatus::options(),
         ]);
     }
 
-    private function authorOptions(): EloquentCollection
+    private function selectedAuthorOptions(array $columnFilters): array
     {
-        return User::query()
-            ->select(['id', 'name'])
-            ->orderBy('name')
-            ->get();
-    }
-
-    private function statusOptions(): array
-    {
-        return collect(PostStatus::cases())
-            ->map(fn (PostStatus $status) => [
-                'label' => str($status->value)->headline()->toString(),
-                'value' => $status->value,
+        return collect($columnFilters)
+            ->filter(fn (string $filter): bool => str_starts_with($filter, 'user.name:'))
+            ->map(fn (string $filter): string => explode(':', $filter, 2)[1])
+            ->filter(fn (string $name): bool => $name !== '')
+            ->unique()
+            ->map(fn (string $name): array => [
+                'value' => $name,
+                'label' => $name,
             ])
+            ->values()
             ->all();
     }
 }

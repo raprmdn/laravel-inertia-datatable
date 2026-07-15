@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, usePage } from '@inertiajs/react';
 import ButtonWithLoading from '@/components/button-with-loading.jsx';
 import IconPack from '@/components/icon-pack.jsx';
@@ -227,6 +227,12 @@ export default function TableToolbar({
     const { data, setData } = useForm(
         parseFilters(filterProps?.filters ?? params?.filters),
     );
+
+    useEffect(() => {
+        setData(parseFilters(filterProps?.filters));
+        // External filters are the source of truth after Inertia navigation.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filterProps?.filters]);
 
     const applyFilter = () => {
         const filtersArray = Object.entries(data).flatMap(([key, values]) =>

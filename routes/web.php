@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\UserController as ApiUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
@@ -10,6 +11,7 @@ Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('api/users/options', [ApiUserController::class, 'options'])->name('api.users.options');
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('roles', [RoleController::class, 'index'])->name('roles.index');

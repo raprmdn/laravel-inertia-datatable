@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { useState } from 'react';
 import TablePagination from '@/components/data-table/table-pagination.jsx';
 import TableRowEmptyState from '@/components/data-table/table-empty-state.jsx';
 import TableSortHeader from '@/components/data-table/table-sort-header.jsx';
@@ -42,16 +43,50 @@ const formatCreatedAt = (createdAt) => {
 
 export default function DataTable() {
     const { data: posts, meta } = usePage().props.posts;
-    const { authors = [], filters, statuses = [] } = usePage().props;
+    const {
+        filters,
+        selected_authors: selectedAuthors = [],
+        statuses = [],
+    } = usePage().props;
+    const [cachedAuthors, setCachedAuthors] = useState([]);
     const { params, setParams, setTimeDebounce } = useDebouncedSearch(
         route(route().current()),
         filters,
     );
     const { sort } = useSorting(filters, setParams);
+    const knownAuthors = Array.from(
+        new Map(
+            [...cachedAuthors, ...selectedAuthors].map((author) => [
+                String(author.value),
+                { ...author, value: String(author.value) },
+            ]),
+        ).values(),
+    );
+    const authorLabels = Object.fromEntries(
+        knownAuthors.map((author) => [author.value, author.label]),
+    );
+
+    (params.filters ?? [])
+        .filter((filter) => filter.startsWith('author:'))
+        .map((filter) => filter.split(':')[1])
+        .forEach((authorId) => {
+            authorLabels[authorId] ??= __('Unknown author');
+        });
+
+    const cacheAuthors = (authors) => {
+        setCachedAuthors((currentAuthors) =>
+            Array.from(
+                new Map(
+                    [...currentAuthors, ...authors].map((author) => [
+                        String(author.value),
+                        { ...author, value: String(author.value) },
+                    ]),
+                ).values(),
+            ),
+        );
+    };
     const filterValueLabels = {
-        author: Object.fromEntries(
-            authors.map((author) => [String(author.id), author.name]),
-        ),
+        author: authorLabels,
         status: Object.fromEntries(
             statuses.map((status) => [status.value, __(status.label)]),
         ),
@@ -67,7 +102,21 @@ export default function DataTable() {
                 setTimeDebounce={setTimeDebounce}
                 defaultFilterValues={postFilterDefaults}
                 filterValueLabels={filterValueLabels}
-                filters={PostFilters}
+                filters={({ data, setData }) => (
+                    <PostFilters
+                        data={data}
+                        setData={setData}
+                        selectedAuthors={(data.author ?? [])
+                            .map((authorId) =>
+                                knownAuthors.find(
+                                    (author) =>
+                                        author.value === String(authorId),
+                                ),
+                            )
+                            .filter(Boolean)}
+                        onSelectedAuthorsChange={cacheAuthors}
+                    />
+                )}
             />
 
             <Table>

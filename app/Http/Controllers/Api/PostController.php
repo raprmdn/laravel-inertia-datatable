@@ -44,20 +44,10 @@ class PostController extends Controller
             ->make();
 
         return PostApiResource::collection($posts)->additional([
-            'statuses' => $this->statuses(),
+            'statuses' => PostStatus::options(),
             'categories' => $this->categoryOptions(),
             'authors' => $this->authorOptions(),
         ]);
-    }
-
-    private function statuses(): array
-    {
-        return collect(PostStatus::cases())
-            ->map(fn (PostStatus $status) => [
-                'label' => str($status->value)->headline()->toString(),
-                'value' => $status->value,
-            ])
-            ->all();
     }
 
     private function categoryOptions(): EloquentCollection
