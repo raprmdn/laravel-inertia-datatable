@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\PostStatus;
 use App\Http\Resources\App\PostResource;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,6 +19,7 @@ class PostController extends Controller
             $request->query('filters', []),
             [
                 'author' => 'user.name',
+                'category' => 'categories.slug',
                 'status' => 'status',
                 'created_at' => 'created_at',
             ],
@@ -45,6 +47,10 @@ class PostController extends Controller
 
         return Inertia::render('posts/index', [
             'posts' => PostResource::collection($posts),
+            'categories' => Category::query()
+                ->select(['name', 'slug'])
+                ->orderBy('name')
+                ->get(),
             'selected_authors' => $this->selectedAuthorOptions($columnFilters),
             'statuses' => PostStatus::options(),
         ]);

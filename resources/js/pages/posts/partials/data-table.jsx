@@ -44,6 +44,7 @@ const formatCreatedAt = (createdAt) => {
 export default function DataTable() {
     const { data: posts, meta } = usePage().props.posts;
     const {
+        categories = [],
         filters,
         selected_authors: selectedAuthors = [],
         statuses = [],
@@ -87,6 +88,9 @@ export default function DataTable() {
     };
     const filterValueLabels = {
         author: authorLabels,
+        category: Object.fromEntries(
+            categories.map((category) => [category.slug, category.name]),
+        ),
         status: Object.fromEntries(
             statuses.map((status) => [status.value, __(status.label)]),
         ),

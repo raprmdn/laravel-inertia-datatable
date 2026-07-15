@@ -9,6 +9,7 @@ import { __ } from '@/lib/lang.jsx';
 
 export const postFilterDefaults = {
     author: [],
+    category: [],
     status: [],
     created_at_from: '',
     created_at_to: '',
@@ -20,7 +21,11 @@ export const PostFilters = ({
     selectedAuthors,
     onSelectedAuthorsChange,
 }) => {
-    const { statuses = [] } = usePage().props;
+    const { categories = [], statuses = [] } = usePage().props;
+    const categoryOptions = categories.map((category) => ({
+        label: category.name,
+        value: category.slug,
+    }));
     const statusOptions = statuses.map((status) => ({
         label: __(status.label),
         value: status.value,
@@ -78,6 +83,21 @@ export const PostFilters = ({
                     clearText={__('Clear')}
                     closeText={__('Close')}
                     unknownOptionLabel={__('Unknown author')}
+                    modalPopover={false}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                <Label className="text-foreground">{__('Category')}</Label>
+                <MultiSelect
+                    options={categoryOptions}
+                    onValueChange={(value) => setData('category', value)}
+                    value={data.category}
+                    defaultValue={data.category}
+                    maxCount={3}
+                    placeholder={__('Select :key', {
+                        key: __('Category'),
+                    })}
                     modalPopover={false}
                 />
             </div>
