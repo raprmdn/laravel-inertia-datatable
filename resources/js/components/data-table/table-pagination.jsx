@@ -102,7 +102,7 @@ export default function TablePagination({ meta }) {
                                 href={link.url || '#'}
                                 preserveScroll
                                 className={cn(
-                                    'relative inline-flex size-9 items-center justify-center rounded-md border text-sm font-medium shadow-xs transition-colors focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+                                    'relative inline-flex h-9 min-w-9 items-center justify-center rounded-md border px-2 text-sm font-medium shadow-xs transition-colors focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
                                     link.active
                                         ? 'z-10 border-primary bg-primary text-primary-foreground shadow-sm dark:border-primary'
                                         : 'border-border bg-background text-foreground hover:bg-muted hover:text-foreground dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900',

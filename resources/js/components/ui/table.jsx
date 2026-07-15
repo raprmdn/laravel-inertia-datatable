@@ -28,7 +28,7 @@ function TableHeader({ className, ...props }) {
         <thead
             data-slot="table-header"
             className={cn(
-                'bg-muted/40 text-muted-foreground dark:bg-zinc-900 dark:text-zinc-300 [&_tr]:border-b',
+                'bg-muted text-muted-foreground dark:bg-zinc-900 dark:text-zinc-300 [&_tr]:border-b',
                 className,
             )}
             {...props}
@@ -77,7 +77,7 @@ function TableHead({ className, ...props }) {
         <th
             data-slot="table-head"
             className={cn(
-                'h-11 border-b border-border bg-muted/40 px-6 text-left align-middle font-medium whitespace-nowrap text-muted-foreground dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+                'h-11 border-b border-border bg-muted px-6 text-left align-middle font-medium whitespace-nowrap text-muted-foreground dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
                 className,
             )}
             {...props}
@@ -134,7 +134,7 @@ function TableHeadSticky({ className, index = 0, isLast = false, ...props }) {
             ref={ref}
             data-slot="table-head-sticky"
             className={cn(
-                'bg-muted/40 dark:bg-zinc-900',
+                'bg-muted dark:bg-zinc-900',
                 !isMobile && 'sticky z-20',
                 'h-11 border-b border-border px-6 text-left align-middle font-medium whitespace-nowrap text-muted-foreground dark:border-zinc-800 dark:text-zinc-300',
                 isLast &&
