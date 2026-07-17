@@ -14,7 +14,6 @@ class CategoryController extends Controller
     public function index(Request $request): Response
     {
         [$sort, $allowedSorts] = DataTable::parseSort(
-            $request->string('col')->toString(),
             [
                 'name' => 'name',
                 'slug' => 'slug',
@@ -24,7 +23,7 @@ class CategoryController extends Controller
         );
 
         $categories = DataTable::query(Category::query())
-            ->withCount(['posts'])
+            ->withCount('posts')
             ->searchable(['name', 'slug'])
             ->applySort($sort)
             ->allowedSorts($allowedSorts)

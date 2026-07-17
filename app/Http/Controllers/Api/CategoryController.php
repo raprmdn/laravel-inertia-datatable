@@ -16,7 +16,7 @@ class CategoryController extends Controller
         [$columnFilters, $allowedFilters, $dateRanges] = DataTable::parseFilters([
             'created_at' => 'created_at',
         ]);
-        [$sort, $allowedSorts] = DataTable::parseSort($request->string('col')->toString(), [
+        [$sort, $allowedSorts] = DataTable::parseSort([
             'name' => 'name',
             'slug' => 'slug',
             'created_at' => 'created_at',
@@ -24,7 +24,8 @@ class CategoryController extends Controller
             'posts_count' => 'posts_count',
         ]);
 
-        $categories = DataTable::query(Category::query()->withCount('posts'))
+        $categories = DataTable::query(Category::query())
+            ->withCount('posts')
             ->searchable(['name', 'slug'])
             ->applyFilters($columnFilters)
             ->allowedFilters($allowedFilters)

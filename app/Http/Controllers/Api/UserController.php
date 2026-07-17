@@ -58,7 +58,7 @@ class UserController extends Controller
             'role' => 'roles.name',
             'created_at' => 'created_at',
         ]);
-        [$sort, $allowedSorts] = DataTable::parseSort($request->string('col')->toString(), [
+        [$sort, $allowedSorts] = DataTable::parseSort([
             'name' => 'name',
             'email' => 'email',
             'created_at' => 'created_at',
@@ -66,8 +66,9 @@ class UserController extends Controller
             'posts_count' => 'posts_count',
         ]);
 
-        $users = DataTable::query(User::query()->withCount('posts'))
-            ->with(['roles'])
+        $users = DataTable::query(User::query())
+            ->withCount('posts')
+            ->with('roles')
             ->searchable(['name', 'email', 'roles.name'])
             ->applyFilters($columnFilters)
             ->allowedFilters($allowedFilters)

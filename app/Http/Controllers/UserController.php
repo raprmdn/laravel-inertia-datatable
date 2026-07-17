@@ -30,7 +30,7 @@ class UserController extends Controller
             ]
         );
 
-        [$sort, $allowedSorts] = DataTable::parseSort($request->string('col')->toString(), [
+        [$sort, $allowedSorts] = DataTable::parseSort([
             'name' => 'name',
             'email' => 'email',
             'email_verified_at' => 'email_verified_at',
@@ -38,7 +38,7 @@ class UserController extends Controller
         ]);
 
         $users = DataTable::query($query)
-            ->with(['roles'])
+            ->with('roles')
             ->searchable(['name', 'email', 'roles.name'])
             ->applyFilters($columnFilters)
             ->allowedFilters($allowedFilters)

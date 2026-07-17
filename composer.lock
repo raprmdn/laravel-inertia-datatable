@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb8a32eadfa6bc0c8039816d01f83f18",
+    "content-hash": "dfa48c458a88fadc4943f6501fdc003c",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4060,16 +4060,16 @@
         },
         {
             "name": "raprmdn/laravel-inertia-datatables",
-            "version": "v0.3.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/raprmdn/laravel-inertia-datatables.git",
-                "reference": "898ed983230d033b2f86ffe7bef5486d818ca69e"
+                "reference": "e63c4eff92bb53ec18cb3d5c76aefcb97c850eab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raprmdn/laravel-inertia-datatables/zipball/898ed983230d033b2f86ffe7bef5486d818ca69e",
-                "reference": "898ed983230d033b2f86ffe7bef5486d818ca69e",
+                "url": "https://api.github.com/repos/raprmdn/laravel-inertia-datatables/zipball/e63c4eff92bb53ec18cb3d5c76aefcb97c850eab",
+                "reference": "e63c4eff92bb53ec18cb3d5c76aefcb97c850eab",
                 "shasum": ""
             },
             "require": {
@@ -4080,6 +4080,9 @@
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "nesbot/carbon": "^2.72|^3.0",
                 "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0"
             },
             "type": "library",
             "extra": {
@@ -4107,12 +4110,12 @@
                     "email": "hello@raprmdn.dev"
                 }
             ],
-            "description": "Laravel server-side data table query builder with optional Inertia React components.",
+            "description": "Laravel server-side datatable query builder for Eloquent and query builder responses.",
             "support": {
                 "issues": "https://github.com/raprmdn/laravel-inertia-datatables/issues",
-                "source": "https://github.com/raprmdn/laravel-inertia-datatables/tree/v0.3.0"
+                "source": "https://github.com/raprmdn/laravel-inertia-datatables/tree/v0.4.0"
             },
-            "time": "2026-07-14T04:25:00+00:00"
+            "time": "2026-07-17T06:27:54+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",

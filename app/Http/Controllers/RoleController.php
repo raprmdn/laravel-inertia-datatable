@@ -18,7 +18,6 @@ class RoleController extends Controller
         ]);
 
         [$sort, $allowedSorts] = DataTable::parseSort(
-            $request->string('col')->toString(),
             [
                 'name' => 'name',
                 'guard' => 'guard_name',
@@ -28,7 +27,7 @@ class RoleController extends Controller
         );
 
         $roles = DataTable::query(Role::query())
-            ->withCount(['users'])
+            ->withCount('users')
             ->searchable(['name'])
             ->applyFilters($columnFilters)
             ->allowedFilters($allowedFilters)

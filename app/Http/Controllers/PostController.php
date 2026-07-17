@@ -25,7 +25,7 @@ class PostController extends Controller
             ],
         );
 
-        [$sort, $allowedSorts] = DataTable::parseSort($request->string('col')->toString(), [
+        [$sort, $allowedSorts] = DataTable::parseSort([
             'title' => 'title',
             'slug' => 'slug',
             'excerpt' => 'excerpt',
