@@ -18,7 +18,7 @@
         "laravel/fortify": "^1.37.2",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
-        "raprmdn/laravel-inertia-datatables": "^0.4.0",
+        "raprmdn/laravel-inertia-datatables": "@dev",
         "spatie/laravel-permission": "^8.2",
         "tightenco/ziggy": "^2.6"
     },

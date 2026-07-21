@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfa48c458a88fadc4943f6501fdc003c",
+    "content-hash": "1c0acf3a9bc0d631d07994a261c151e0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4060,16 +4060,16 @@
         },
         {
             "name": "raprmdn/laravel-inertia-datatables",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/raprmdn/laravel-inertia-datatables.git",
-                "reference": "e63c4eff92bb53ec18cb3d5c76aefcb97c850eab"
+                "reference": "59951322a315d533ebd675ad2548499d93236575"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raprmdn/laravel-inertia-datatables/zipball/e63c4eff92bb53ec18cb3d5c76aefcb97c850eab",
-                "reference": "e63c4eff92bb53ec18cb3d5c76aefcb97c850eab",
+                "url": "https://api.github.com/repos/raprmdn/laravel-inertia-datatables/zipball/59951322a315d533ebd675ad2548499d93236575",
+                "reference": "59951322a315d533ebd675ad2548499d93236575",
                 "shasum": ""
             },
             "require": {
@@ -4113,9 +4113,9 @@
             "description": "Laravel server-side datatable query builder for Eloquent and query builder responses.",
             "support": {
                 "issues": "https://github.com/raprmdn/laravel-inertia-datatables/issues",
-                "source": "https://github.com/raprmdn/laravel-inertia-datatables/tree/v0.4.0"
+                "source": "https://github.com/raprmdn/laravel-inertia-datatables/tree/v0.5.0"
             },
-            "time": "2026-07-17T06:27:54+00:00"
+            "time": "2026-07-21T07:27:38+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -11287,7 +11287,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "raprmdn/laravel-inertia-datatables": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
