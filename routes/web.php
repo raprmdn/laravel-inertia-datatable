@@ -1,21 +1,25 @@
 <?php
 
-use App\Http\Controllers\Api\UserController as ApiUserController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdvancedOrderController;
+use App\Http\Controllers\Api\CustomerOptionController;
+use App\Http\Controllers\BasicOrderController;
+use App\Http\Controllers\LegacyOrderController;
+use App\Http\Controllers\MigrationOrderController;
+use App\Http\Controllers\QueryBuilderOrderController;
+use App\Http\Controllers\RelationshipOrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'welcome')->name('home');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
-    Route::get('api/users/options', [ApiUserController::class, 'options'])->name('api.users.options');
-    Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-});
+Route::redirect('/', '/dashboard')->name('home');
+Route::inertia('dashboard', 'dashboard')->name('dashboard');
+Route::get('examples/basic-orders', [BasicOrderController::class, 'index'])->name('examples.basic-orders');
+Route::get('examples/relationships', [RelationshipOrderController::class, 'index'])->name('examples.relationships');
+Route::get('examples/custom-columns', [AdvancedOrderController::class, 'index'])->name('examples.custom-columns');
+Route::get('examples/query-builder', [QueryBuilderOrderController::class, 'index'])->name('examples.query-builder');
+Route::inertia('examples/api', 'examples/api/index')->name('examples.api-explorer');
+Route::get('examples/migration', [MigrationOrderController::class, 'index'])->name('examples.migration.current');
+Route::get('examples/migration/legacy', [LegacyOrderController::class, 'index'])->name('examples.migration.legacy');
+Route::get('api/customers/options', [CustomerOptionController::class, 'index'])
+    ->middleware('throttle:60,1')
+    ->name('api.customers.options');
 
 require __DIR__.'/settings.php';

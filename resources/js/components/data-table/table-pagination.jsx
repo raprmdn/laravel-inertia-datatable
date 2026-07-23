@@ -43,6 +43,9 @@ export default function TablePagination({ meta }) {
                                     key={index}
                                     href={link.url || '#'}
                                     preserveScroll
+                                    preserveState
+                                    aria-disabled={!link.url}
+                                    tabIndex={link.url ? undefined : -1}
                                     className={cn(
                                         'relative inline-flex size-9 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-xs transition-colors hover:bg-muted hover:text-foreground focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900',
                                         !link.url &&
@@ -64,6 +67,9 @@ export default function TablePagination({ meta }) {
                                     key={index}
                                     href={link.url || '#'}
                                     preserveScroll
+                                    preserveState
+                                    aria-disabled={!link.url}
+                                    tabIndex={link.url ? undefined : -1}
                                     className={cn(
                                         'relative inline-flex size-9 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-xs transition-colors hover:bg-muted hover:text-foreground focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900',
                                         !link.url &&
@@ -101,6 +107,8 @@ export default function TablePagination({ meta }) {
                                 key={index}
                                 href={link.url || '#'}
                                 preserveScroll
+                                preserveState
+                                aria-current={link.active ? 'page' : undefined}
                                 className={cn(
                                     'relative inline-flex h-9 min-w-9 items-center justify-center rounded-md border px-2 text-sm font-medium shadow-xs transition-colors focus:z-20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
                                     link.active

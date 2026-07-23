@@ -32,7 +32,7 @@
 //
 // export default useDebouncedSearch;
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import lodash from 'lodash';
 import { router } from '@inertiajs/react';
 import usePrevious from '@/hooks/use-previous.js';
@@ -45,17 +45,17 @@ const useDebouncedSearch = (url, initialParams, initialTimeDebounce = 50) => {
 
     const prevParams = usePrevious(params);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const search = useCallback(
-        debounce((nextParams) => {
-            router.get(url, pickBy(nextParams), {
-                replace: true,
-                preserveScroll: true,
-                preserveState: true,
-                queryStringArrayFormat: 'indices',
-            });
-        }, timeDebounce),
-        [url, timeDebounce],
+    const search = useMemo(
+        () =>
+            debounce((nextParams) => {
+                router.get(url, pickBy(nextParams), {
+                    replace: true,
+                    preserveScroll: true,
+                    preserveState: true,
+                    queryStringArrayFormat: 'indices',
+                });
+            }, timeDebounce),
+        [timeDebounce, url],
     );
 
     useEffect(() => {

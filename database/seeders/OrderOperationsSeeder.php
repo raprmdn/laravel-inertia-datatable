@@ -118,7 +118,7 @@ class OrderOperationsSeeder extends Seeder
                 'customer_number' => sprintf('CUS-SHOW-%04d', $number),
                 'name' => $name,
                 'email' => sprintf('customer%02d@example.test', $number),
-                'phone' => $index % 3 === 0 ? null : sprintf('+1-555-01%02d', $number),
+                'phone' => $index % 3 === 0 ? null : '+62'.fake()->numerify('8##########'),
                 'active' => $index % 5 !== 0,
             ]);
         }
@@ -239,7 +239,7 @@ class OrderOperationsSeeder extends Seeder
             $number = $index + 1;
             $status = fake()->randomElement($orderStatuses);
             $placedAt = CarbonImmutable::instance(
-                fake()->dateTimeBetween('2024-01-01', '2025-12-31 23:59:59'),
+                fake()->dateTimeBetween('2025-01-01', '2026-12-31 23:59:59'),
             );
             $order = Order::factory()->create([
                 'customer_id' => $customers[$index % count($customers)]->id,

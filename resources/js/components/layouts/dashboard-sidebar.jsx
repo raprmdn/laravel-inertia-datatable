@@ -1,11 +1,13 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
-    LayoutGrid,
-    FileText,
+    BookOpenIcon,
+    BoxesIcon,
+    BracesIcon,
+    GitCompareArrowsIcon,
+    NetworkIcon,
+    ShoppingCartIcon,
+    SlidersHorizontalIcon,
     Settings,
-    ShieldCheck,
-    Tags,
-    UserIcon,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
@@ -21,70 +23,77 @@ import { __ } from '@/lib/lang.jsx';
 
 export function DashboardSidebar() {
     const page = usePage();
+    const isAuthenticated = Boolean(page.props.auth.user);
 
     const navGroups = [
         {
-            title: 'Platform',
-            permission: null,
+            title: 'Start Here',
             items: [
                 {
-                    title: __('Dashboard', {}, page),
+                    title: __('Overview', {}, page),
                     href: route('dashboard'),
-                    icon: LayoutGrid,
-                    permission: null,
-                    badge: null,
+                    icon: BookOpenIcon,
                     routeName: 'dashboard',
                 },
             ],
         },
         {
-            title: 'Example Usage',
-            permission: null,
+            title: 'Core',
             items: [
                 {
-                    title: __('Posts', {}, page),
-                    href: route('posts.index'),
-                    icon: FileText,
-                    permission: null,
-                    badge: null,
-                    routeName: 'posts.*',
-                },
-                {
-                    title: __('Categories', {}, page),
-                    href: route('categories.index'),
-                    icon: Tags,
-                    permission: null,
-                    badge: null,
-                    routeName: 'categories.*',
-                },
-                {
-                    title: __('Users', {}, page),
-                    href: route('users.index'),
-                    icon: UserIcon,
-                    permission: null,
-                    badge: null,
-                    routeName: 'users.*',
-                },
-                {
-                    title: __('Roles', {}, page),
-                    href: route('roles.index'),
-                    icon: ShieldCheck,
-                    permission: null,
-                    badge: null,
-                    routeName: 'roles.*',
+                    title: __('Basic Orders', {}, page),
+                    href: route('examples.basic-orders'),
+                    icon: ShoppingCartIcon,
+                    routeName: 'examples.basic-orders',
                 },
             ],
         },
         {
+            title: 'Relationships',
+            items: [
+                {
+                    title: __('Orders & Customers', {}, page),
+                    href: route('examples.relationships'),
+                    icon: NetworkIcon,
+                    routeName: 'examples.relationships',
+                },
+            ],
+        },
+        {
+            title: 'Advanced',
+            items: [
+                {
+                    title: __('Custom Columns', {}, page),
+                    href: route('examples.custom-columns'),
+                    icon: SlidersHorizontalIcon,
+                    routeName: 'examples.custom-columns',
+                },
+                {
+                    title: __('Query Builder', {}, page),
+                    href: route('examples.query-builder'),
+                    icon: BoxesIcon,
+                    routeName: 'examples.query-builder',
+                },
+            ],
+        },
+        {
+            title: 'Integration',
+            items: [
+                {
+                    title: __('API Explorer', {}, page),
+                    href: route('examples.api-explorer'),
+                    icon: BracesIcon,
+                    routeName: 'examples.api-explorer',
+                },
+            ],
+        },
+        isAuthenticated && {
             title: 'Account Center',
-            permission: null,
             items: [
                 {
                     title: __('Settings', {}, page),
                     href: route('profile.edit'),
                     icon: Settings,
-                    permission: null,
-                    badge: null,
                     routeName: [
                         'settings',
                         'profile.*',
@@ -95,60 +104,56 @@ export function DashboardSidebar() {
                         {
                             title: __('Profile', {}, page),
                             href: route('profile.edit'),
-                            permission: null,
-                            badge: null,
                             routeName: 'profile.*',
                         },
                         {
                             title: __('Security', {}, page),
                             href: route('security.edit'),
-                            permission: null,
-                            badge: null,
                             routeName: 'security.*',
                         },
                         {
                             title: __('Appearance', {}, page),
                             href: route('appearance.edit'),
-                            permission: null,
-                            badge: null,
                             routeName: 'appearance.*',
                         },
                     ],
                 },
             ],
         },
-    ].map((group) => ({
-        ...group,
-        items: group.items.map((item) => {
-            const items = item.items?.map((subItem) => {
-                const current = Array.isArray(subItem.routeName)
-                    ? subItem.routeName.some((routeName) =>
-                          route().current(routeName),
-                      )
-                    : route().current(subItem.routeName);
+    ]
+        .filter(Boolean)
+        .map((group) => ({
+            ...group,
+            items: group.items.map((item) => {
+                const items = item.items?.map((subItem) => {
+                    const current = Array.isArray(subItem.routeName)
+                        ? subItem.routeName.some((routeName) =>
+                              route().current(routeName),
+                          )
+                        : route().current(subItem.routeName);
+
+                    return {
+                        ...subItem,
+                        current,
+                    };
+                });
+
+                const current = Boolean(
+                    (Array.isArray(item.routeName)
+                        ? item.routeName.some((routeName) =>
+                              route().current(routeName),
+                          )
+                        : route().current(item.routeName)) ||
+                    items?.some((subItem) => subItem.current),
+                );
 
                 return {
-                    ...subItem,
+                    ...item,
+                    items,
                     current,
                 };
-            });
-
-            const current = Boolean(
-                (Array.isArray(item.routeName)
-                    ? item.routeName.some((routeName) =>
-                          route().current(routeName),
-                      )
-                    : route().current(item.routeName)) ||
-                items?.some((subItem) => subItem.current),
-            );
-
-            return {
-                ...item,
-                items,
-                current,
-            };
-        }),
-    }));
+            }),
+        }));
 
     return (
         <Sidebar collapsible="icon" variant="inset">

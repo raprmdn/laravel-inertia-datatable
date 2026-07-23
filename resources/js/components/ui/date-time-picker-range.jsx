@@ -1,5 +1,4 @@
 import { CalendarIcon } from 'lucide-react';
-import * as React from 'react';
 import { format, parse } from 'date-fns';
 import { Button } from '@/components/ui/button.jsx';
 import { Calendar } from '@/components/ui/calendar.jsx';
@@ -28,15 +27,13 @@ export function DatePickerWithRange({
         return parse(val, 'dd-MM-yyyy', new Date());
     };
 
-    const [date, setDate] = React.useState({
+    const date = {
         from: parseValue(value?.from),
         to: parseValue(value?.to),
-    });
+    };
 
     const handleSelect = (selectedDate) => {
         if (disabled) return;
-
-        setDate(selectedDate);
 
         if (onChange) {
             onChange(selectedDate);

@@ -60,7 +60,9 @@ export default function useApiOptions({
                             value: String(option.value),
                         })),
                     );
-                    setHasMore(Boolean(response?.meta?.has_more));
+                    setHasMore(
+                        Boolean(response?.has_more ?? response?.meta?.has_more),
+                    );
                 } catch {
                     if (requestToken !== requestTokenRef.current) {
                         return;
