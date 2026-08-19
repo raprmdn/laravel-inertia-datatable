@@ -66,6 +66,7 @@ COPY --chown=www-data:www-data . .
 COPY --from=vendor --chown=www-data:www-data /var/www/vendor ./vendor
 COPY --from=assets --chown=www-data:www-data /app/public/build ./public/build
 COPY docker/php/production.ini /usr/local/etc/php/conf.d/production.ini
+COPY docker/php/start-production.sh /usr/local/bin/start-production
 
 RUN mkdir -p \
         bootstrap/cache \
@@ -75,15 +76,12 @@ RUN mkdir -p \
         storage/framework/views \
         storage/logs \
     && ln -s ../storage/app/public public/storage \
-    && chown -R www-data:www-data bootstrap/cache storage
+    && chown -R www-data:www-data bootstrap/cache storage \
+    && cp -a public /usr/local/share/app-public \
+    && cp -a public/build /usr/local/share/app-build \
+    && rm -rf /usr/local/share/app-public/build \
+    && chmod +x /usr/local/bin/start-production
 
 USER www-data
 
 CMD ["php-fpm"]
-
-FROM nginx:1.29-alpine AS web
-
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=app /var/www/public /var/www/public
-
-WORKDIR /var/www

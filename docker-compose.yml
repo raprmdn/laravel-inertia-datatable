@@ -20,8 +20,9 @@ services:
       DB_USERNAME: ${DOCKER_DB_USERNAME:-laravel}
       LOG_CHANNEL: stderr
       SESSION_SECURE_COOKIE: "true"
-    command: ["sh", "-c", "php artisan optimize && exec php-fpm"]
+    command: ["start-production", "php-fpm"]
     volumes:
+      - app_public:/var/www/public
       - app_storage:/var/www/storage
     read_only: true
     tmpfs:
@@ -41,15 +42,14 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: laravel-inertia-datatable-web:latest
-    build:
-      context: .
-      target: web
+    image: nginx:1.29-alpine
     init: true
     ports:
       - "127.0.0.1:${APP_PORT:-8080}:80"
     volumes:
+      - app_public:/var/www/public:ro
       - app_storage:/var/www/storage:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     read_only: true
     tmpfs:
       - /var/cache/nginx
@@ -110,5 +110,6 @@ services:
     restart: "no"
 
 volumes:
+  app_public:
   app_storage:
   mysql_data:
