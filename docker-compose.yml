@@ -1,0 +1,114 @@
+services:
+  app:
+    image: laravel-inertia-datatable-app:latest
+    build:
+      context: .
+      target: app
+      args:
+        VITE_APP_NAME: ${APP_NAME:-Laravel}
+    init: true
+    env_file: .env
+    environment:
+      APP_DEBUG: "false"
+      APP_ENV: production
+      DB_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_DATABASE: ${DB_DATABASE:-laravel}
+      DB_HOST: mysql
+      DB_PASSWORD: ${DOCKER_DB_PASSWORD:?Set DOCKER_DB_PASSWORD in .env}
+      DB_PORT: 3306
+      DB_USERNAME: ${DOCKER_DB_USERNAME:-laravel}
+      LOG_CHANNEL: stderr
+      SESSION_SECURE_COOKIE: "true"
+    command: ["sh", "-c", "php artisan optimize && exec php-fpm"]
+    volumes:
+      - app_storage:/var/www/storage
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/www/bootstrap/cache:uid=33,gid=33,mode=0775
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php", "-r", "$$socket = @fsockopen('127.0.0.1', 9000); exit($$socket ? 0 : 1);"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  nginx:
+    image: laravel-inertia-datatable-web:latest
+    build:
+      context: .
+      target: web
+    init: true
+    ports:
+      - "127.0.0.1:${APP_PORT:-8080}:80"
+    volumes:
+      - app_storage:/var/www/storage:ro
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1/up"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+      MYSQL_PASSWORD: ${DOCKER_DB_PASSWORD:?Set DOCKER_DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .env}
+      MYSQL_USER: ${DOCKER_DB_USERNAME:-laravel}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  migrate:
+    image: laravel-inertia-datatable-app:latest
+    profiles: ["tools"]
+    init: true
+    env_file: .env
+    environment:
+      APP_DEBUG: "false"
+      APP_ENV: production
+      DB_ROOT_PASSWORD: ""
+      DB_CONNECTION: mysql
+      DB_DATABASE: ${DB_DATABASE:-laravel}
+      DB_HOST: mysql
+      DB_PASSWORD: ${DOCKER_DB_PASSWORD:?Set DOCKER_DB_PASSWORD in .env}
+      DB_PORT: 3306
+      DB_USERNAME: ${DOCKER_DB_USERNAME:-laravel}
+      LOG_CHANNEL: stderr
+    command: ["php", "artisan", "migrate", "--force"]
+    volumes:
+      - app_storage:/var/www/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  app_storage:
+  mysql_data:

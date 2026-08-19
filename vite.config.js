@@ -6,6 +6,12 @@ import { defineConfig } from 'vite';
 import path from 'node:path';
 
 export default defineConfig({
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost',
+        },
+    },
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.jsx'],
