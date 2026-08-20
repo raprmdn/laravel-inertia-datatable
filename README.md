@@ -7,6 +7,8 @@ A Laravel and Inertia React learning application for
 It demonstrates server-side search, filters, sorting, relationships, and
 pagination through one Order Operations dataset.
 
+Demo: <https://datatable.raprmdn.dev>
+
 ## Examples
 
 1. **Basic Orders**: searchable columns, filters, sorting, and pagination.
