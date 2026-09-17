@@ -18,7 +18,6 @@ services:
       DB_PASSWORD: ${DOCKER_DB_PASSWORD:?Set DOCKER_DB_PASSWORD in .env}
       DB_PORT: 3306
       DB_USERNAME: ${DOCKER_DB_USERNAME:-laravel}
-      LOG_CHANNEL: stderr
       SESSION_SECURE_COOKIE: "true"
     command: ["start-production", "php-fpm"]
     volumes:
@@ -70,6 +69,8 @@ services:
 
   mysql:
     image: mysql:8.4
+    ports:
+        - "127.0.0.1:${DB_FORWARD_PORT:-3306}:3306"
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-laravel}
       MYSQL_PASSWORD: ${DOCKER_DB_PASSWORD:?Set DOCKER_DB_PASSWORD in .env}
@@ -100,7 +101,6 @@ services:
       DB_PASSWORD: ${DOCKER_DB_PASSWORD:?Set DOCKER_DB_PASSWORD in .env}
       DB_PORT: 3306
       DB_USERNAME: ${DOCKER_DB_USERNAME:-laravel}
-      LOG_CHANNEL: stderr
     command: ["php", "artisan", "migrate", "--force"]
     volumes:
       - app_storage:/var/www/storage
